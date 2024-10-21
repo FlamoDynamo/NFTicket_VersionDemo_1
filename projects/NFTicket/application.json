@@ -1,0 +1,116 @@
+{
+    "schema_version": 1,
+    "name": "NFTicket",
+    "description": "Smart contract for managing events, attendants, and ticket issuance with NFT integration.",
+    "app_id": 724732255,
+    "creator": "Your Creator Address Here",
+    "approval_program": "approval.teal",
+    "clear_state_program": "clear_state.teal",
+    "global_state": {
+        "schema": {
+            "num_uints": 16,
+            "num_byte_slices": 0
+        },
+        "defaults": [
+            {
+                "name": "event_count",
+                "type": "uint64",
+                "description": "Total number of events created",
+                "default_value": 0
+            },
+            {
+                "name": "event_x_nft_id",
+                "type": "uint64",
+                "description": "NFT ID for event x",
+                "default_value": 0
+            },
+            {
+                "name": "event_x_end",
+                "type": "uint64",
+                "description": "End timestamp for event x",
+                "default_value": 0
+            },
+            {
+                "name": "event_x_stopped",
+                "type": "uint64",
+                "description": "Stopped state for event x (1 if stopped, 0 if active)",
+                "default_value": 0
+            },
+            {
+                "name": "event_x_ticket_count",
+                "type": "uint64",
+                "description": "Number of tickets remaining for event x",
+                "default_value": 0
+            },
+            {
+                "name": "event_x_ticket_issued",
+                "type": "uint64",
+                "description": "Number of tickets issued for event x",
+                "default_value": 0
+            }
+        ]
+    },
+    "local_state": {
+        "schema": {
+            "num_uints": 1,
+            "num_byte_slices": 0
+        }
+    },
+    "methods": [
+        {
+            "name": "create_event",
+            "args": [
+                {
+                    "type": "uint64",
+                    "name": "nft_id",
+                    "description": "NFT ID associated with the event"
+                },
+                {
+                    "type": "uint64",
+                    "name": "end_timestamp",
+                    "description": "End timestamp for the event"
+                },
+                {
+                    "type": "uint64",
+                    "name": "ticket_count",
+                    "description": "Number of tickets available for the event"
+                }
+            ],
+            "returns": {
+                "type": "uint64",
+                "description": "Returns 1 on success, 0 on failure"
+            },
+            "description": "Creates a new event with associated NFT ID, end timestamp, and available tickets."
+        },
+        {
+            "name": "stop_event",
+            "args": [
+                {
+                    "type": "uint64",
+                    "name": "event_id",
+                    "description": "ID of the event to stop"
+                }
+            ],
+            "returns": {
+                "type": "uint64",
+                "description": "Returns 1 on success, 0 on failure"
+            },
+            "description": "Stops an event after its end timestamp has passed."
+        },
+        {
+            "name": "add_attendant",
+            "args": [
+                {
+                    "type": "uint64",
+                    "name": "event_id",
+                    "description": "ID of the event to join"
+                }
+            ],
+            "returns": {
+                "type": "uint64",
+                "description": "Returns 1 on success, 0 on failure"
+            },
+            "description": "Registers an attendant to the specified event, issues a ticket if available."
+        }
+    ]
+}
